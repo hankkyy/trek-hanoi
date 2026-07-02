@@ -1,38 +1,45 @@
 # TREK Hanoi
 
 > 河内 × 下龙湾 旅行规划 — TREK 云端部署版  
-> 基于 [TREK](https://github.com/mauriceboe/TREK) 的 Fork，部署于 Fly.io
+> 基于 [TREK](https://github.com/mauriceboe/TREK) 部署于 Oracle Cloud 永久免费实例
 
 ## 在线访问
 
-**https://trek-hanoi.fly.dev**
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| TREK 规划台 | http://147.224.9.74:3000 | 私人规划，需登录 |
+| hanoi-vercel | https://hanoi-vercel.vercel.app | 公开分享页 |
+
+## 架构
+
+```
+Oracle Cloud Always Free
+└── VM.Standard.E2.1.Micro (1 OCPU, 1GB + 2GB swap)
+    └── Ubuntu 22.04 + Docker
+        └── TREK (NestJS + React + SQLite + WebSocket)
+```
 
 ## 项目结构
 
 ```
 trek-hanoi/
-├── fly.toml              # Fly.io 部署配置
-├── theme.css             # 自定义主题（方案三换皮）
-└── README.md
-```
-
-## 部署
-
-```bash
-flyctl deploy --app trek-hanoi
+├── AGENTS.md             # AI agent 上下文文档
+├── fly.toml              # Fly.io 配置（历史，现已迁移 Oracle）
+├── README.md
+└── .gitignore
 ```
 
 ## 数据
 
-- 存储：Fly.io 持久卷 (1GB)
-- 自动快照：每 24h
-- 行程数据源：hanoi-vercel CloudBase API
+- 存储：Docker volume `trek-data`（SQLite）
+- 数据源：从 hanoi-vercel CloudBase API 实时导入
+- 行程：4 天 38 个地点
 
 ## 关联项目
 
-- **公开分享页**: https://hanoi-vercel.vercel.app
-- **上游项目**: https://github.com/mauriceboe/TREK
+- 公开分享页: https://hanoi-vercel.vercel.app
+- TREK 上游: https://github.com/mauriceboe/TREK
 
 ---
 
-*Powered by TREK + Fly.io*
+*Powered by TREK + Oracle Cloud Always Free*
